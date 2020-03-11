@@ -1,0 +1,7 @@
+#Ignore all subfolders
+*/*/
+#Ignore bak & temp
+*.bak
+*.temp
+
+
