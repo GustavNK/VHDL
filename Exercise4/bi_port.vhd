@@ -14,13 +14,11 @@ architecture bi_port_arch of bi_port is
 begin
 	with sw0 select
 	led0 <= 	not key3 when '1',
-				gpio0 when '0',
-				'0' when others;
+				gpio0 when '0';
 	gpio0 <= not key3 when sw0 = '1' else 'Z';
 	
 	with not sw0 select	led1 <= not key2 when '1',
-				gpio1 when '0',
-				'0' when others;
+				gpio1 when '0';
 	gpio1 <= not key2 when not sw0 = '1' else 'Z';
 	
 end;
