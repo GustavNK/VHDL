@@ -15,5 +15,5 @@ u1: entity bin2hex(bin2hex_arch)
 port map(
 	bin(3 downto 0) => SW(3 downto 0),
 	seg(6 downto 0) => HEX0(6 downto 0)
-);
+	);
 end;

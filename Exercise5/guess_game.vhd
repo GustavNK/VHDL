@@ -14,6 +14,10 @@ port(
 end;
 
 architecture guess_game_arch of guess_game is
+	constant lo		: std_logic_vector(13 downto 0) := "10001110100011";
+	constant hi		: std_logic_vector(13 downto 0) := "00010011101111";
+	constant dash	: std_logic_vector(13 downto 0) := "01111110111111";
+	
 	signal s_l		: std_logic_vector(7 downto 0);
 	signal s_cl		: std_logic_vector(1 downto 0);
 	signal s_mux	: std_logic_vector(7 downto 0);
@@ -21,20 +25,20 @@ architecture guess_game_arch of guess_game is
 begin
 	latch: process(input, set)
 	begin
-		if(set = '0') then
+		if(set = '0') then --active low
 			s_l <= input;
 		end if;
 	end process latch;
 	
 	compare_logic: process(try, input, s_l)
 	begin
-		if (try = '0') then
+		if (try = '0') then --active low
 			if			(input = s_l) then
-				s_cl <= "00";
+				s_cl <= "00";			--eqaul (--)
 			elsif 	(input > s_l) then
-				s_cl <= "10";
+				s_cl <= "10";			--higher than (Hi)
 			elsif		(input < s_l) then
-				s_cl <= "01";
+				s_cl <= "01";			--Lower than (Lo)
 			end if;
 		else
 			s_cl <= "11";
@@ -55,4 +59,21 @@ begin
 	b2h10: entity bin2hex(bin2hex_arch)
 	port map(bin => s_mux(7 downto 4), seg => s_b2h(13 downto 7));
 	
+	total_mux: process(s_b2h)
+	begin
+		case(s_cl) is
+			when "10" => 	--Hi Case
+				hex10 <= hi(13 downto 7);
+				hex1 	<= hi(6 downto 0);
+			when "01" => 
+				hex10 <= lo(13 downto 7);
+				hex1 	<= lo(6 downto 0);
+			when "00" =>
+				hex10 <= dash(13 downto 7);
+				hex1	<= dash(6 downto 0);
+			when others =>
+				hex10 <= s_b2h(13 downto 7);
+				hex1 	<= s_b2h(6 downto 0);
+		end case;
+	end process total_mux;		
 end;
