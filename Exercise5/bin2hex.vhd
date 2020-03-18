@@ -10,5 +10,5 @@ end;
 
 architecture bin2hex_arch of bin2hex is
 begin
-	bin <= '1';
+	bin <= '0';
 end;
