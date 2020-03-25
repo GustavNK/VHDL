@@ -9,7 +9,8 @@ port(
 	show 			: in std_logic; -- Show predefined value 
 	try 			: in std_logic; -- Evaluate guess 9 
 	player		: in std_logic; -- Control player 1 or 0
-	hex1, hex10	: out std_logic_vector(6 downto 0) -- 7seg-1 and 7seg-10
+	hex1, hex10, hex_p
+					: out std_logic_vector(6 downto 0) -- 7seg-1 and 7seg-10
 );
 end;
 
@@ -51,6 +52,9 @@ begin
 				hex10 <= seg0(13 downto 7);
 		end case;
 	end process output_mux;
+	
+	show_player: entity bin2hex(bin2hex_arch)
+	port map(bin => ("000" & player), seg => hex_p);
 end;
 
 
