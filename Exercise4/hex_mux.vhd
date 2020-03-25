@@ -29,5 +29,5 @@ begin
 	
 	tsseg <= On1 	when sel = "11" else
 				Err 	when sel = "01" else
-				sseg 	when sel = "10" else dash;
+				sseg 	when sel = "10";
 end;

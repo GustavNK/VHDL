@@ -481,7 +481,6 @@ set_global_assignment -name VHDL_FILE test.vhd
 set_global_assignment -name VHDL_FILE four_bit_adder_simple.vhd
 set_global_assignment -name VHDL_FILE four_bit_adder.vhd
 set_global_assignment -name VHDL_FILE test2.vhd
-set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/altera/VHDL/Exercise3/Waveform1.vwf"
 set_global_assignment -name VHDL_FILE shift_div.vhd
 set_global_assignment -name VHDL_FILE test3.vhd
 set_global_assignment -name VHDL_FILE mult.vhd
@@ -491,3 +490,4 @@ set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_RO
 set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
 set_instance_assignment -name DSP_BLOCK_BALANCING "LOGIC ELEMENTS" -to *
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name INCREMENTAL_VECTOR_INPUT_SOURCE "C:/Users/1chri/Documents/GitHub/VHDL/Exercise3/Waveform1.vwf"
