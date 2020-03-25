@@ -21,6 +21,8 @@ begin
 				compare <= "10";			--higher than (Hi)
 			elsif		(input < secret_value) then
 				compare <= "01";			--Lower than (Lo)
+			else
+				compare <= "11";
 			end if;
 		else
 			compare <= "11";
