@@ -3,5 +3,6 @@
 #Ignore bak & temp
 *.bak
 *.temp
+*.qws
 
 
