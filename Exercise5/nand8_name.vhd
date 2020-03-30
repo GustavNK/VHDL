@@ -15,7 +15,9 @@ begin
 	begin
 		y_p := '0';
 		for index in 7 downto 0 loop
-			y_p := y_p NAND a(index);
+			if a(index) = '0' then
+				y_p := '1';
+			end if;
 		end loop;
 		y <= y_p;
 	end process nanda;
