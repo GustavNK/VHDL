@@ -19,21 +19,12 @@ architecture two_player_guess_game_arch of two_player_guess_game is
 	signal input0, input1								: std_logic_vector(7 downto 0);
 	signal seg1, seg0										: std_logic_vector(13 downto 0);
 begin
-	input_mux: process(show,set,input,try)
-	begin
-		case(player) is
-			when '1' => 	--Player 1
-				show1 <= show;
-				set1 	<= set;
-				try1 <= try;
-				input1 <= input;
-			when '0' => 	--Player 0
-				show0 <= show;
-				set0 	<= set;
-				try0 <= try;
-				input0 <= input;
-		end case;
-	end process input_mux;
+	u2: entity two_player_show_mux (two_player_show_mux_arch) port map
+	(player_input=>player, show=>show, set=>set, 
+	try=>try, input=>input, output1=>input1, output0=>input0,
+	show0 => show0, set0 => set0, try0 => try0,
+	show1 => show1, set1 => set1, try1 => try1
+	);
 	
 	u1: entity guess_game (guess_game_arch) port map
 	(show=>show1, set=>set1, input=>input1, try=>try1, hex1=>seg1(6 downto 0), hex10=>seg1(13 downto 7));
@@ -41,29 +32,11 @@ begin
 	u0: entity guess_game (guess_game_arch) port map
 	(show=>show0, set=>set0, input=>input0, try=>try0, hex1=>seg0(6 downto 0), hex10=>seg0(13 downto 7));
 	
-	output_mux: process(seg1, seg0)
-	begin
-		case(player) is
-			when '1' =>
-				hex1 <= seg1(6 downto 0);
-				hex10 <= seg1(13 downto 7);
-			when '0' =>
-				hex1 <= seg0(6 downto 0);
-				hex10 <= seg0(13 downto 7);
-		end case;
-	end process output_mux;
+	u3: entity two_player_total_mux (two_player_total_mux_arch) port map
+	(seg1=>seg1, seg0=>seg0, player=>player, hex1=>hex1, hex10=>hex10);
 	
 	show_player: entity bin2hex(bin2hex_arch)
 	port map(bin => ("000" & player), seg => hex_p);
 end;
-
-
-
-
-
-
-
-
-
 
 
