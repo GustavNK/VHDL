@@ -14,36 +14,26 @@ architecture two_player_show_mux_arch of two_player_show_mux is
 begin	
 		input_mux: process(show,set,input,try, player_input)
 	begin
-		case(player_input) is
-			when '1' => 	--Player 1
-				show1 <= show;
+	if (player_input = '1') then
+					show1 <= show;
 				set1 	<= set;
 				try1 <= try;
 				output1 <= input;
-
-				--Default værdi
-				show0 <= '0';
-				set0 	<= '0';
-				try0 <= '0';
+				--Default værdi til player0
+				show0 <= '1';
+				set0 	<= '1';
+				try0 <= '1';
 				output0 <= "00000000";
-
-			when '0' => 	--Player 0
+	else
 				show0 <= show;
 				set0 	<= set;
 				try0 <= try;
 				output0 <= input;
-
 				--Default værdi
-				show1 <= '0';
-				set1 	<= '0';
-				try1 <= '0';
+				show1 <= '1';
+				set1 	<= '1';
+				try1 <= '1';
 				output1 <= "00000000";
-	
-			when others => --Default to player 1
-				show1 <= show;
-				set1 	<= set;
-				try1 <= try;
-				output1 <= input;
-		end case;
+	end if;
 	end process input_mux;
 end;

@@ -20,7 +20,11 @@ architecture two_player_guess_game_arch of two_player_guess_game is
 	signal seg1, seg0										: std_logic_vector(13 downto 0);
 begin
 	u2: entity two_player_show_mux (two_player_show_mux_arch) port map
-	(player_input=>player, show=>show, set=>set, try=>try, input=>input, output1=>input1, output0=>input0);
+	(player_input=>player, show=>show, set=>set, 
+	try=>try, input=>input, output1=>input1, output0=>input0,
+	show0 => show0, set0 => set0, try0 => try0,
+	show1 => show1, set1 => set1, try1 => try1
+	);
 	
 	u1: entity guess_game (guess_game_arch) port map
 	(show=>show1, set=>set1, input=>input1, try=>try1, hex1=>seg1(6 downto 0), hex10=>seg1(13 downto 7));
@@ -34,3 +38,5 @@ begin
 	show_player: entity bin2hex(bin2hex_arch)
 	port map(bin => ("000" & player), seg => hex_p);
 end;
+
+
