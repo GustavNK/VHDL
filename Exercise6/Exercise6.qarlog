@@ -1,0 +1,20 @@
+Quartus II Archive log --	C:/altera/VHDL/Exercise6/Exercise6.qarlog
+
+Archive:	C:/altera/VHDL/Exercise6/Exercise6.qar
+Date:		Wed Apr 01 10:30:14 2020
+Quartus II 64-Bit		13.0.1 Build 232 06/12/2013 SP 1 SJ Web Edition
+
+	=========== Files Selected: ===========
+C:/altera/VHDL/Exercise6/Ex6.qsf
+C:/altera/VHDL/Exercise6/Exercise6.qpf
+C:/altera/VHDL/Exercise6/bin2sevenseg.vhd
+C:/altera/VHDL/Exercise6/db/Ex6.sim.vwf
+C:/altera/VHDL/Exercise6/incremental_db/compiled_partitions/Ex6.db_info
+C:/altera/VHDL/Exercise6/multi_counter.vhd
+C:/altera/VHDL/Exercise6/multi_counter_test.vhd
+C:/altera/VHDL/Exercise6/wvf1.vwf
+c:/altera/13.0sp1/quartus/bin64/assignment_defaults.qdf
+	======= Total: 9 files to archive =======
+
+	================ Status: ===============
+All files archived successfully.
