@@ -21,8 +21,10 @@ port(
 end;
 
 architecture arch of clock_gen is
+--Signals
 signal clk_signal : integer range MIN_CLK_VAL to MAX_CLK_VAL;
 signal clear		: std_logic;
+
 begin
 	counting : process(clk, reset)
 	variable clk_counter : integer range MIN_CLK_VAL to MAX_CLK_VAL;
