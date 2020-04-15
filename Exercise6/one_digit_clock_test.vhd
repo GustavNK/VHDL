@@ -3,9 +3,7 @@ use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 use work.all;
 
-
 entity one_digit_clock_test is
-
 port(
 	-- Input
 	CLOCK_50 : in std_logic;
@@ -34,7 +32,7 @@ begin
 		count => count_s,
 		cout => LEDR(0)
 	);
-	u3: bin2sevenseg(arch) port map(
+	u3: bin2sevenseg(bin2sevenseg_arch) port map(
 		bin => count_s,
 		sseg => HEX0
 	);
