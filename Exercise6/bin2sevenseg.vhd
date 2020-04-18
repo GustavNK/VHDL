@@ -1,7 +1,6 @@
 library ieee;
 use ieee.std_logic_1164.all;
 
-
 entity bin2sevenseg is
 port(
 	bin 	: in std_logic_vector(3 downto 0);
@@ -30,9 +29,3 @@ begin
 				"0001110" when "1111", --F
 				"0111111" when others; --Error
 end;
-
-
---subtype step is std_logic_vector(6 downto 0);
---type steps is array (0 to 15) of step;
---constant num_step : steps := (
---	);

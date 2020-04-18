@@ -26,7 +26,7 @@ signal clk_signal : integer range MIN_CLK_VAL to MAX_CLK_VAL;
 signal clear		: std_logic;
 
 begin
-	counting : process(clk, reset)
+	counting : process(clk, reset, clear)
 	variable clk_counter : integer range MIN_CLK_VAL to MAX_CLK_VAL;
 	begin
 		if reset = '0' or clear = '1' then

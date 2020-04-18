@@ -1,11 +1,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
 use work.all;
 
-
 entity multi_counter_test is
-
 port(
 	-- Input
 	KEY		: in std_logic_vector(3 downto 0);
@@ -17,6 +14,7 @@ port(
 end;
 
 architecture arch of multi_counter_test is
+--signals
 signal count_s : std_logic_vector(3 downto 0);
 begin
 	u1: multi_counter(arch) port map(
