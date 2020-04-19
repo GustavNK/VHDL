@@ -18,7 +18,7 @@ architecture arch of multi_counter_test is
 signal count_s : std_logic_vector(3 downto 0);
 begin
 	u1: multi_counter(arch) port map(
-		clk => KEY(0), mode => SW(17 downto 16), reset => KEY(3), count => count_s
+		clk => KEY(0), mode => SW, reset => KEY(3), count => count_s, cout => LEDR(0)
 	);
 	u2: bin2sevenseg(bin2sevenseg_arch) port map(
 		bin => count_s, sseg => HEX0

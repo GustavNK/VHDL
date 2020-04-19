@@ -13,7 +13,7 @@ port(
 );
 end;
 
-architecture guess_game_arch of guess_game is	
+architecture arch of guess_game is	
 	signal s_cl		: std_logic_vector(1 downto 0);
 	signal s_b2h1, s_b2h10	
 						: std_logic_vector(6 downto 0);
