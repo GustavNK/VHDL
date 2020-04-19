@@ -1,11 +1,8 @@
 library ieee;
 use ieee.std_logic_1164.all;
-use ieee.numeric_std.all;
 use work.all;
 
-
 entity watch is
-
 port(
 	-- Input
 	clk 		: in std_logic;
@@ -14,16 +11,20 @@ port(
 	--Output
 	sec_1, sec_10, min_1, min_10, hrs_1, hrs_10
 				: out std_logic_vector(6 downto 0);
-	tm 		: out std_logic_vector(15 downto 0)
+	tm 		: out std_logic_vector(15 downto 0);
+	cout		: out std_logic
 );
 end;
 
 architecture arch of watch is
+--signals
 signal clk_s 	: std_logic;
 signal cout_s_1, cout_s_10, cout_m_1, cout_m_10, cout_h_1,cout_h_10
 					: std_logic;
 signal count_s_1,count_s_10, count_m_1, count_m_10, count_h_1, count_h_10
 					: std_logic_vector(3 downto 0);
+signal reset_s : std_logic;
+
 begin
 	clk1: clock_gen(arch) port map(
 		clk => clk, 
@@ -36,42 +37,42 @@ begin
 	s1: multi_counter(arch) port map(
 		clk => clk_s,
 		mode => "00",
-		reset => reset,
+		reset => reset_s,
 		count => count_s_1,
 		cout => cout_s_1
 	);
 	s10: multi_counter(arch) port map(
 		clk => cout_s_1,
 		mode => "01",
-		reset => reset,
+		reset => reset_s,
 		count => count_s_10,
 		cout => cout_s_10
 	);
 	m1: multi_counter(arch) port map(
 		clk => cout_s_10,
 		mode => "00",
-		reset => reset,
+		reset => reset_s,
 		count => count_m_1,
 		cout => cout_m_1
 	);
 	m10: multi_counter(arch) port map(
 		clk => cout_m_1,
 		mode => "01",
-		reset => reset,
+		reset => reset_s,
 		count => count_m_10,
 		cout => cout_m_10
 	);
 	h1: multi_counter(arch) port map(
 		clk => cout_m_10,
 		mode => "00",
-		reset => reset,
+		reset => reset_s,
 		count => count_h_1,
 		cout => cout_h_1
 	);
 	h10: multi_counter(arch) port map(
 		clk => cout_h_1,
 		mode => "11",
-		reset => reset,
+		reset => reset_s,
 		count => count_h_10,
 		cout => open
 	);
@@ -97,8 +98,18 @@ begin
 		bin => count_h_1,
 		sseg => hrs_1
 	);
-	u3: bin2sevenseg(bin2sevenseg_arch) port map(
+	b2s_h10: bin2sevenseg(bin2sevenseg_arch) port map(
 		bin => count_h_10,
 		sseg => hrs_10
 	);
+	
+	--Reset logic
+	rl: reset_logic(arch) port map(
+		reset_out => reset_s,
+		reset_in => reset,
+		hrs_bin1 => count_h_1(2),
+		hrs_bin10 => count_h_10(1)
+	);
+	--Output for the time match
+	tm <= count_h_10 & count_h_1 & count_m_10 & count_m_1;
 end;

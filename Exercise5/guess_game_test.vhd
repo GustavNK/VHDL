@@ -11,9 +11,9 @@ port(
 );
 end;
 
-architecture guess_game_test_arch of guess_game_test is
+architecture arch of guess_game_test is
 begin
-	u1: entity guess_game(guess_game_arch)
+	u1: entity guess_game(arch)
 	port map(
 		show 	=> KEY(0),
 		set 	=> KEY(1),
