@@ -7,7 +7,6 @@ generic(
 	MIN_VAL : natural := 0;
 	MAX_VAL : natural := 15
 );
-
 port(
 	-- Input
 	clk 		: in std_logic;
@@ -20,6 +19,7 @@ port(
 end;
 
 architecture arch of multi_counter is
+--signals
 signal clear : std_logic;
 signal count_val : integer range MIN_VAL to MAX_VAL;
 
@@ -50,7 +50,7 @@ begin
 		end if;
 	end process mux;
 	
-	cout_proc: process(count_val)
+	cout_proc: process(count_val, clk)
 	begin
 		if count_val = 0 then
 			cout <= '1';

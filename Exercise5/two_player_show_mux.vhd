@@ -3,14 +3,18 @@ use ieee.std_logic_1164.all;
 
 entity two_player_show_mux is
 port(
-	show, set, try, player_input				: in std_logic;
-	input												: in std_logic_vector(7 downto 0);
-	show1, set1, try1, show0, set0, try0	: out std_logic;
-	output0, output1								: out std_logic_vector(7 downto 0)
+	show, set, try, player_input
+				: in std_logic;
+	input	
+				: in std_logic_vector(7 downto 0);
+	show1, set1, try1, show0, set0, try0
+				: out std_logic;
+	output0, output1	
+				: out std_logic_vector(7 downto 0)
 );
 end;
 
-architecture two_player_show_mux_arch of two_player_show_mux is
+architecture arch of two_player_show_mux is
 begin	
 		input_mux: process(show,set,input,try, player_input)
 	begin

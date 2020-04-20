@@ -4,8 +4,8 @@ use ieee.numeric_std.all;
 
 entity clock_gen is
 generic(
-	CLK_1_SEC 	: natural := (50000000/2);
-	CLK_5_MSEC	: natural := (250000/2);
+	CLK_1_SEC 	: natural := 50000000;
+	CLK_5_MSEC	: natural := 2500000;
 	MIN_CLK_VAL	: natural := 0;
 	MAX_CLK_VAL	: natural := 50000000
 );
@@ -26,7 +26,7 @@ signal clk_signal : integer range MIN_CLK_VAL to MAX_CLK_VAL;
 signal clear		: std_logic;
 
 begin
-	counting : process(clk, reset)
+	counting : process(clk, reset, clear)
 	variable clk_counter : integer range MIN_CLK_VAL to MAX_CLK_VAL;
 	begin
 		if reset = '0' or clear = '1' then
@@ -42,13 +42,14 @@ begin
 	variable clk_out_signal : std_logic;
 	begin
 		if speed = '1' and clk_signal = CLK_1_SEC then
-			clk_out_signal := clk_out_signal xor '1';
+			clk_out_signal := '1';
 			clear <= '1';
 		elsif speed = '0' and clk_signal = CLK_5_MSEC then
-			clk_out_signal := clk_out_signal xor '1';
+			clk_out_signal := '1';
 			clear <= '1';
 		else
 			clear <= '0';
+			clk_out_signal := '0';
 		end if;
 		clk_out <= clk_out_signal;
 	end process choice;

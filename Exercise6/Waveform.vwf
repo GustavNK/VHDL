@@ -1,4 +1,3 @@
-/* Simulator = Quartus II Simulator */
 /*
 WARNING: Do NOT edit the input and output ports in this file in a text
 editor if you plan to continue editing the block that represents it in
@@ -150,9 +149,9 @@ TRANSITION_LIST("clk")
 		REPEAT = 1;
 		NODE
 		{
-			REPEAT = 20;
-			LEVEL 0 FOR 25.0;
-			LEVEL 1 FOR 25.0;
+			REPEAT = 100;
+			LEVEL 0 FOR 5.0;
+			LEVEL 1 FOR 5.0;
 		}
 	}
 }
@@ -207,7 +206,9 @@ TRANSITION_LIST("mode[1]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 0 FOR 1000.0;
+		LEVEL 0 FOR 280.0;
+		LEVEL 1 FOR 690.0;
+		LEVEL 0 FOR 30.0;
 	}
 }
 
@@ -216,7 +217,8 @@ TRANSITION_LIST("mode[0]")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 0 FOR 1000.0;
+		LEVEL 0 FOR 180.0;
+		LEVEL 1 FOR 820.0;
 	}
 }
 
@@ -225,7 +227,8 @@ TRANSITION_LIST("reset")
 	NODE
 	{
 		REPEAT = 1;
-		LEVEL 1 FOR 1000.0;
+		LEVEL 0 FOR 60.0;
+		LEVEL 1 FOR 940.0;
 	}
 }
 
@@ -242,7 +245,7 @@ DISPLAY_LINE
 {
 	CHANNEL = "count";
 	EXPAND_STATUS = EXPANDED;
-	RADIX = Binary;
+	RADIX = Unsigned;
 	TREE_INDEX = 1;
 	TREE_LEVEL = 0;
 	CHILDREN = 2, 3, 4, 5;
@@ -252,7 +255,7 @@ DISPLAY_LINE
 {
 	CHANNEL = "count[3]";
 	EXPAND_STATUS = COLLAPSED;
-	RADIX = Binary;
+	RADIX = Unsigned;
 	TREE_INDEX = 2;
 	TREE_LEVEL = 1;
 	PARENT = 1;
@@ -262,7 +265,7 @@ DISPLAY_LINE
 {
 	CHANNEL = "count[2]";
 	EXPAND_STATUS = COLLAPSED;
-	RADIX = Binary;
+	RADIX = Unsigned;
 	TREE_INDEX = 3;
 	TREE_LEVEL = 1;
 	PARENT = 1;
@@ -272,7 +275,7 @@ DISPLAY_LINE
 {
 	CHANNEL = "count[1]";
 	EXPAND_STATUS = COLLAPSED;
-	RADIX = Binary;
+	RADIX = Unsigned;
 	TREE_INDEX = 4;
 	TREE_LEVEL = 1;
 	PARENT = 1;
@@ -282,7 +285,7 @@ DISPLAY_LINE
 {
 	CHANNEL = "count[0]";
 	EXPAND_STATUS = COLLAPSED;
-	RADIX = Binary;
+	RADIX = Unsigned;
 	TREE_INDEX = 5;
 	TREE_LEVEL = 1;
 	PARENT = 1;

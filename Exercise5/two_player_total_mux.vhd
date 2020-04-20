@@ -9,7 +9,7 @@ port(
 );
 end;
 
-architecture two_player_total_mux_arch of two_player_total_mux is
+architecture arch of two_player_total_mux is
 begin
 	output_mux: process(seg1, seg0, player)
 	begin
