@@ -15,7 +15,7 @@ end;
 
 architecture arch of mee_moo is 
 type state is (idle, init, active1);
-signal present_state, next_state 
+signal next_state, present_state
 				: state;
 begin
 	state_reg: process(clk, reset)
@@ -27,12 +27,12 @@ begin
 		end if;
 	end process;
 	
-	next_state: process(present_state, inp)
+	nxt_state: process(present_state, inp)
 	begin
-	--next_state <= present_state; --default
+	next_state <= present_state; --default
 	case present_state is
 		when idle => 
-			if inp = "1X" then
+			if inp(1) = '1' then
 				next_state <= init;
 			end if;
 		when init => 
@@ -42,19 +42,33 @@ begin
 				next_state <= idle;
 			end if;
 		when active1 =>
-			if inp = "XX" then
-				next_state <= idle;
-			end if;
+			next_state <= idle;
 	end case;
 	end process;
 	
-	moo_out: process(present_state)
+	moore_out: process(present_state)
 	begin
 	case present_state is
 		when idle =>
 			moo_out <= '0';
-		when init | active1 =>
+		when init | active1=>
 			moo_out <= '1';
+	end case;
+	end process;
+	
+	mealy_out: process(present_state)
+	begin
+	case present_state is
+		when idle =>
+			mee_out <= '0';
+		when init =>
+			if inp = "11" then
+				mee_out <= '1';
+			else
+				mee_out <= '0';
+			end if;
+		when active1 =>
+			mee_out <= '0';
 	end case;
 	end process;	
 end;
