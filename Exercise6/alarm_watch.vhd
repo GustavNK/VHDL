@@ -4,7 +4,7 @@ use work.all;
 
 entity alarm_watch is
 generic(
-	b2s_zero : std_logic_vector(6 downto 0) := "0000000"
+	b2s_zero : std_logic_vector(6 downto 0) := "1000000"
 );
 port(
 	-- Input
