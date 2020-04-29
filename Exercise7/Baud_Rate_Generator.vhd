@@ -5,7 +5,8 @@ entity Baud_Rate_Generator is
 generic(
 	scale	: natural := 434;
 	MIN_CLK_VAL	: natural := 0;
-	MAX_CLK_VAL	: natural := 50000000
+	MAX_CLK_VAL	: natural := 50000000;
+	baud			: natural := 434 --BAUD-Rate paa ~115200 Hz
 );
 	port(
 	reset, clk	: in std_logic;
@@ -25,7 +26,7 @@ begin
 			clk_counter := clk_counter + 1;
 		end if;
 		
-		if clk_counter = 115200 then
+		if clk_counter = baud then
 			clk_baud <= '1';
 			clear := '1';
 		else
