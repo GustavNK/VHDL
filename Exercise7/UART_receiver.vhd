@@ -54,19 +54,19 @@ begin
 	end case;
 	end process;
 	
---	moore_out: process(present_state)
---	variable latch	: std_logic_vector(7 downto 0);
---	begin
---	case present_state is
---		when reading =>
---			latch := rxd & latch(7 downto 1);
---		when latch_data =>
---			rxdata <= latch;
---			rxvalid <= '1';
---		when idle =>
---			rxvalid <= '0';
---		when others =>
---			null;
---	end case;
---	end process;
+	moore_out: process(present_state)
+	variable latch	: std_logic_vector(7 downto 0);
+	begin
+	case present_state is
+		when reading =>
+			latch := rxd & latch(7 downto 1);
+		when latch_data =>
+			rxdata <= latch;
+			rxvalid <= '1';
+		when idle =>
+			rxvalid <= '0';
+		when others =>
+			null;
+	end case;
+	end process;
 end;
