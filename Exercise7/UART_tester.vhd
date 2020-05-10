@@ -6,7 +6,7 @@ entity UART_tester is
 port(
 	--input
 	GPIO_1	: in std_logic_vector(0 downto 0);
-	GPIO_2	: out std_logic_vector(1 downto 0);
+	GPIO_0	: out std_logic_vector(1 downto 0);
 	KEY		: in std_logic_vector(1 downto 0);
 	SW			: in std_logic_vector(7 downto 0);
 	CLOCK_50	: in std_logic;
@@ -21,8 +21,8 @@ begin
 	reset => KEY(0), rxd => GPIO_1(0), txvalid => KEY(1),
 	txdata => SW,
 	clk => CLOCK_50,
-	rxdata => LEDR(7 downto 0), rxvalid => LEDR(8), txd => GPIO_2(0)
+	rxdata => LEDR(7 downto 0), rxvalid => LEDR(8), txd => GPIO_0(0)
 	);
 	
-	GPIO_2(1) <= '0'; 
+	GPIO_0(1) <= '0'; 
 end;
