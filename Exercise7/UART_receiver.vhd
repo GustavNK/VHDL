@@ -8,14 +8,19 @@ port(
 	reset, rxd, clk_baud	: in std_logic;
 	--output
 	rxdata					: out std_logic_vector(7 downto 0);
-	rxvalid					: out std_logic
+	rxvalid					: out std_logic;
+	bit_count				: out std_logic_vector(2 downto 0)
 );
 end;
 
 architecture arch of UART_receiver is
+
 type state is (idle, reading, stopping, latch_data);
 signal next_state, present_state
 				: state;
+signal latch	: std_logic_vector(7 downto 0);
+signal bit_cnt	: integer range 0 to 7;
+
 begin
 	state_reg: process(clk_baud, reset)
 	begin
@@ -26,18 +31,16 @@ begin
 		end if;
 	end process;
 	
-	nxt_state: process(present_state, rxd)
-	variable bit_cnt	: integer range 0 to 8;
+	nxt_state: process(present_state, rxd, bit_cnt)
 	begin
 	next_state <= present_state; --default
 	case present_state is
 		when idle => 
 			if rxd = '0' then
+				bit_cnt <= 0;
 				next_state <= reading;
-				bit_cnt := 0;
 			end if;
 		when reading =>
-			bit_cnt := bit_cnt + 1;
 			if bit_cnt > 7 then
 				next_state <= stopping;
 			end if;
@@ -54,12 +57,14 @@ begin
 	end case;
 	end process;
 	
-	moore_out: process(present_state)
-	variable latch	: std_logic_vector(7 downto 0);
+	moore_out: process(present_state, rxd, latch, bit_cnt)
 	begin
 	case present_state is
 		when reading =>
-			latch := rxd & latch(7 downto 1);
+			bit_cnt <= bit_cnt + 1;
+			latch <= rxd & latch(7 downto 1);
+			rxdata <= latch;
+			bit_count <= std_logic_vector(to_unsigned(bit_cnt,3));
 		when latch_data =>
 			rxdata <= latch;
 			rxvalid <= '1';
