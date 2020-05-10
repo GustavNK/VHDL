@@ -18,8 +18,9 @@ architecture arch of UART_receiver is
 type state is (idle, reading, stopping, latch_data);
 signal next_state, present_state
 				: state;
-signal latch	: std_logic_vector(7 downto 0);
-signal bit_cnt	: integer range 0 to 7;
+signal latch				: std_logic_vector(7 downto 0);
+signal bit_cnt_present	: integer range 0 to 7 ;
+signal bit_cnt_next		: integer range 0 to 7;
 
 begin
 	state_reg: process(clk_baud, reset)
@@ -28,6 +29,7 @@ begin
 			present_state <= idle;
 		elsif rising_edge(clk_baud) then
 			present_state <= next_state;
+			bit_cnt_present <= bit_cnt_next;
 		end if;
 	end process;
 	
@@ -37,14 +39,14 @@ begin
 	case present_state is
 		when idle => 
 			if rxd = '0' then
-				bit_cnt <= 0;
+				bit_cnt_next <= 0;
 				next_state <= reading;
 			end if;
 		when reading =>
-			if bit_cnt > 7 then
+			if bit_cnt_present > 7 then
 				next_state <= stopping;
 			else
-				bit_cnt <= bit_cnt + 1;
+				bit_cnt_next <= bit_cnt_present + 1;
 			end if;
 		when stopping =>
 			if rxd = '1' then
