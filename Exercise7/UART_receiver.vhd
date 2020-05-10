@@ -66,10 +66,8 @@ begin
 	begin
 	case present_state is
 		when reading =>
---			bit_cnt <= bit_cnt + 1;
 			latch <= rxd & latch(7 downto 1);
-			rxdata <= latch;
---			bit_count <= std_logic_vector(to_unsigned(bit_cnt,3));
+--			rxdata <= latch;
 		when latch_data =>
 			rxdata <= latch;
 			rxvalid <= '1';
