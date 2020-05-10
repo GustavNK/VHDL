@@ -19,8 +19,8 @@ type state is (idle, reading, stopping, latch_data);
 signal next_state, present_state
 				: state;
 signal latch				: std_logic_vector(7 downto 0);
-signal bit_cnt_present	: integer range 0 to 7 ;
-signal bit_cnt_next		: integer range 0 to 7;
+signal bit_cnt_present	: integer range 0 to 8 ;
+signal bit_cnt_next		: integer range 0 to 8;
 
 begin
 	state_reg: process(clk_baud, reset)
@@ -36,6 +36,7 @@ begin
 	nxt_state: process(present_state, rxd)
 	begin
 	next_state <= present_state; --default
+	bit_cnt_next <= bit_cnt_present;
 	case present_state is
 		when idle => 
 			if rxd = '0' then
