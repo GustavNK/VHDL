@@ -36,8 +36,9 @@ begin
 	
 	nxt_state: process(present_state, rxd, bit_cnt_present, latch_present)
 	begin
+	latch_next <= latch_present; --default
 	next_state <= present_state; --default
-	bit_cnt_next <= bit_cnt_present;
+	bit_cnt_next <= bit_cnt_present; --default
 	case present_state is
 		when idle => 
 			if rxd = '0' then
