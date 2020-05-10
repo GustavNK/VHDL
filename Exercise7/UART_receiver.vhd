@@ -29,6 +29,7 @@ begin
 			present_state <= idle;
 		elsif rising_edge(clk_baud) then
 			present_state <= next_state;
+			latch <= rxd & latch(7 downto 1);
 			bit_cnt_present <= bit_cnt_next;
 		end if;
 	end process;
@@ -66,8 +67,7 @@ begin
 	begin
 	case present_state is
 		when reading =>
-			latch <= rxd & latch(7 downto 1);
---			rxdata <= latch;
+			rxdata <= latch;
 		when latch_data =>
 			rxdata <= latch;
 			rxvalid <= '1';
