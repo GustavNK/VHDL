@@ -41,7 +41,7 @@ begin
 	case present_state is
 		when idle => 
 			if rxd = '0' then
-				bit_cnt_next <= 0;
+				bit_cnt_next <= 1;
 				next_state <= reading;
 			end if;
 		when reading =>
@@ -70,10 +70,8 @@ begin
 		when latch_data =>
 			rxdata <= latch_present;
 			rxvalid <= '1';
-		when idle =>
-			rxvalid <= '0';
 		when others =>
-			null;
+			rxvalid <= '0';
 	end case;
 	end process;
 end;
