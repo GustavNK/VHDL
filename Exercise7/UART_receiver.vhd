@@ -42,7 +42,7 @@ begin
 	case present_state is
 		when idle => 
 			if rxd = '0' then
-				bit_cnt_next <= 1;
+				bit_cnt_next <= 0;
 				next_state <= reading;
 			end if;
 		when reading =>
