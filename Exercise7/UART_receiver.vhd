@@ -31,7 +31,7 @@ begin
 		end if;
 	end process;
 	
-	nxt_state: process(present_state, rxd, bit_cnt)
+	nxt_state: process(present_state, rxd)
 	begin
 	next_state <= present_state; --default
 	case present_state is
@@ -43,6 +43,8 @@ begin
 		when reading =>
 			if bit_cnt > 7 then
 				next_state <= stopping;
+			else
+				bit_cnt <= bit_cnt + 1;
 			end if;
 		when stopping =>
 			if rxd = '1' then
@@ -57,14 +59,14 @@ begin
 	end case;
 	end process;
 	
-	moore_out: process(present_state, rxd, latch, bit_cnt)
+	moore_out: process(present_state, rxd, latch)
 	begin
 	case present_state is
 		when reading =>
-			bit_cnt <= bit_cnt + 1;
+--			bit_cnt <= bit_cnt + 1;
 			latch <= rxd & latch(7 downto 1);
 			rxdata <= latch;
-			bit_count <= std_logic_vector(to_unsigned(bit_cnt,3));
+--			bit_count <= std_logic_vector(to_unsigned(bit_cnt,3));
 		when latch_data =>
 			rxdata <= latch;
 			rxvalid <= '1';
