@@ -2,19 +2,19 @@ library ieee;
 use ieee.std_logic_1164.all;
 use ieee.numeric_std.all;
 
-entity UART_receiver is
+entity UART_transmitter is
 port(
 	--input
-	reset, rxd, clk_baud	: in std_logic;
+	reset, txvalid, clk_baud	: in std_logic;
 	--output
-	rxdata					: out std_logic_vector(7 downto 0);
-	rxvalid					: out std_logic
+	txdata							: in std_logic_vector(7 downto 0);
+	txd								: out std_logic
 );
 end;
 
-architecture arch of UART_receiver is
+architecture arch of UART_transmitter is
 
-type state is (idle, reading, stopping, latch_data);
+type state is (idle, send_start_bit, send_data, send_stop_bit);
 signal next_state, present_state
 				: state;
 signal latch_present		: std_logic_vector(7 downto 0);
@@ -29,50 +29,44 @@ begin
 			present_state <= idle;
 		elsif rising_edge(clk_baud) then
 			present_state <= next_state;
-			latch_present <= latch_next;
 			bit_cnt_present <= bit_cnt_next;
 		end if;
 	end process;
 	
-	nxt_state: process(present_state, rxd, bit_cnt_present, latch_present)
+	nxt_state: process(present_state, txvalid, bit_cnt_present)
 	begin
-	latch_next <= latch_present; --default
 	next_state <= present_state; --default
 	bit_cnt_next <= bit_cnt_present; --default
 	case present_state is
 		when idle => 
-			if rxd = '0' then
+			if txvalid = '1' then
 				bit_cnt_next <= 0;
-				next_state <= reading;
+				next_state <= send_start_bit;
 			end if;
-		when reading =>
+		when send_start_bit =>
+			next_state <= send_data;
+		when send_data =>
 			if bit_cnt_present > 7 then
-				next_state <= stopping;
+				next_state <= send_stop_bit;
 			else
 				bit_cnt_next <= bit_cnt_present + 1;
-				latch_next <= rxd & latch_present(7 downto 1);
 			end if;
-		when stopping =>
-			if rxd = '1' then
-				next_state <= latch_data;
-			else
-				next_state <= idle;
-			end if;
-		when latch_data =>
+		when send_stop_bit =>
 			next_state <= idle;
 		when others =>
 			null;
 	end case;
 	end process;
 	
-	moore_out: process(present_state, latch_present)
+	mealy_out: process(present_state, bit_cnt_present, txdata)
 	begin
 	case present_state is
-		when latch_data =>
-			rxdata <= latch_present;
-			rxvalid <= '1';
+		when send_start_bit =>
+			txd <= '0';
+		when send_data =>
+			txd <= txdata(bit_cnt_present);
 		when others =>
-			rxvalid <= '0';
+			txd <= '1';
 	end case;
 	end process;
 end;
