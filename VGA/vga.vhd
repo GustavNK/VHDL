@@ -51,34 +51,31 @@ architecture testGenerator of vga is
 	-- INSERT YOUR PROCEDURE HERE.
 	-- Your procedure should circular increment syncCounter, produce blanking and sync output.  
 	procedure syncGenerator(
-	signal SyncCounter : inout integer;
-	signal SyncOut: out std_logic;
-	signal Blank : out std_logic;
-	constant FrontPorch : in natural;
-	constant BackPorch : in natural;
-	constant DataLen : in natural;
-	constant SynWidth : in natural) is
+		signal SyncCounter : inout integer;
+		signal SyncOut, Blank: out std_logic;
+		constant FrontPorch : in natural;
+		constant BackPorch : in natural;
+		constant DataLen : in natural;
+		constant SynWidth : in natural) is
 	begin
-		if(syncCounter < backPorch) then 
-			blank <='1';
+		if(syncCounter <= backPorch + dataLen)
+		and syncCounter >= backPorch then 
+			blank <='0';
 			syncOut <= '1';
-		elsif (syncCounter < (backPorch + dataLen)) then
-			blank <= '0';
-			syncOut <='1';
-		elsif (syncCounter < (backPorch + dataLen + frontporch)) then
-			blank <= '1';
-			syncOut <='1';
-		elsif (syncCounter < (backPorch + dataLen + frontPorch + synWidth)) then
+		elsif (syncCounter < (backPorch + dataLen + frontPorch + synWidth) - 1) 
+		and syncCounter >= (backPorch + dataLen + frontPorch) then
 			blank <= '1';
 			syncOut <='0';
+		else
+			blank <= '1';
+			syncOut <= '1';
 		end if;
 		
-		if (syncCounter < (backPorch + dataLen + frontPorch + synWidth - 1)) then
-			syncCounter <= syncCounter + 1;
-		else 
+		if (syncCounter >= (backPorch + dataLen + frontPorch + synWidth) - 1) then
 			syncCounter <= 0;
-		end if;
-		
+		else 
+			syncCounter <= syncCounter + 1;
+		end if;	
 	end syncGenerator;
 	
 	
