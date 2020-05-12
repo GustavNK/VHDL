@@ -18,7 +18,7 @@ end;
 architecture arch of UART_tester is 
 begin
 	u1: entity UART(arch) port map (
-	reset => KEY(0), rxd => GPIO_1(0), txvalid => KEY(1),
+	reset => KEY(0), rxd => GPIO_1(0), txvalid => not KEY(1),
 	txdata => SW,
 	clk => CLOCK_50,
 	rxdata => LEDR(7 downto 0), rxvalid => LEDR(8), txd => GPIO_0(0)
