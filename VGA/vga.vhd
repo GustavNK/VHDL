@@ -58,12 +58,12 @@ architecture testGenerator of vga is
 		constant DataLen : in natural;
 		constant SynWidth : in natural) is
 	begin
-		if(syncCounter <= backPorch + dataLen)
-		and syncCounter >= backPorch then 
+		if(syncCounter < backPorch + dataLen - 1)
+		and syncCounter >= backPorch - 1 then 
 			blank <='0';
 			syncOut <= '1';
-		elsif (syncCounter < (backPorch + dataLen + frontPorch + synWidth) - 1) 
-		and syncCounter >= (backPorch + dataLen + frontPorch) then
+		elsif (syncCounter < (backPorch + dataLen + frontPorch + synWidth)-1) 
+		and syncCounter >= (backPorch + dataLen + frontPorch) - 1 then
 			blank <= '1';
 			syncOut <='0';
 		else
@@ -105,7 +105,7 @@ begin
 	vsyn: process (reset,hSyncOut) -- reacts on reset and hsync (meaning every line).
 	begin
 	  if reset = '0' then
-		 vSyncCounter <= 0;
+		 vSyncCounter <= 500;
 	  elsif rising_edge(hSyncOut) then
 			-- generates active low pulse after every picture
 			syncGenerator(vSyncCounter,vSyncOut,vBlank,vFrontPorch,vBackPorch,vDataLen,vSynWidth); 
